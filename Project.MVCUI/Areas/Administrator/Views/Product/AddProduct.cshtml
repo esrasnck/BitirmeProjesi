@@ -1,0 +1,150 @@
+﻿@model Tuple<Product, List<Feature>, List<Category>>
+@{
+    ViewBag.Title = "Ürün Ekleme Sayfası";
+}
+
+<div class="row">
+    <div class="col-lg-12">
+        <section class="panel">
+            <header class="panel-heading">
+                Ürün Ekleme Sayfası
+            </header>
+            <div class="panel-body">
+                <div class="col-xs-6 form">
+
+                    @using (Html.BeginForm("AddProduct", "Product", new { area = "administrator" }, FormMethod.Post, new { @class = "cmxform form-horizontal tasi-form,", enctype = "multipart/form-data" }))
+                    {
+
+                        <div class="form-group ">
+                            <label for="cname" class="control-label col-lg-2">Ürün Adı</label>
+                            <div class="col-lg-10">
+                                @Html.TextBoxFor(x => x.Item1.ProductName, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(x => x.Item1.ProductName, "", new { @class = "text-danger" })
+                            </div>
+
+                        </div>
+
+                        <div class="form-group ">
+                            <label for="cname" class="control-label col-lg-2">Ürün Fiyatı</label>
+                            <div class="col-lg-10">
+
+                                @Html.TextBoxFor(x => x.Item1.UnitPrice, new { @class = "form-control", type = "text" })
+                                @Html.ValidationMessageFor(x => x.Item1.UnitPrice, "", new { @class = "text-danger" })
+
+                            </div>
+                        </div>
+
+                        <div class="form-group ">
+                            <label for="cname" class="control-label col-lg-2">Stok Miktarı</label>
+                            <div class="col-lg-10">
+
+                                @Html.TextBoxFor(x => x.Item1.UnitsInStock, new { @class = "form-control", type = "text" })
+                                @Html.ValidationMessageFor(x => x.Item1.UnitsInStock, "", new { @class = "text-danger" })
+
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="control-label col-md-2">Kategorileri</label>
+                            <div class="col-md-9">
+                                <select name="kategoriler" class="multi-select" multiple="" id="my_multi_select3">
+                                    @foreach (Category item in Model.Item3)
+                                    {
+                                        <option value="@item.ID">@item.CategoryName</option>
+
+                                    }
+
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="control-label col-md-2">Özellikler</label>
+                            <div class="col-md-9">
+                                <select name="ozellikler" class="multi-select" multiple="" id="my_multi_select4">
+                                    @foreach (Feature item in Model.Item2)
+                                    {
+                                        <option value="@item.ID">@item.FeatureName</option>
+
+                                    }
+
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="control-label col-lg-2">Ürün Resmi</label>
+                            <div class="col-md-9">
+                                <div class="fileupload fileupload-new" data-provides="fileupload">
+                                    <div class="fileupload-new thumbnail" style="width: 200px; height: 150px;">
+                                        <img id="myImg" src="http://www.placehold.it/200x150/EFEFEF/AAAAAA&amp;text=no+image" alt="" />
+                                    </div>
+                                    <div class="fileupload-preview fileupload-exists thumbnail" style="max-width: 200px; max-height: 150px; line-height: 20px;"></div>
+                                    <div>
+                                        <span class="btn btn-white btn-file">
+                                            <span class="fileupload-new"><i class="icon-paper-clip"></i> Resim Seç</span>
+                                           
+                                            <input id="secilenfoto" name="resim" type="file" class="default" />
+                                        </span>
+                                        <span id="sergile" class="fileupload-exists"></span>
+                                        <a href="#" class="btn btn-danger fileupload-exists" data-dismiss="fileupload"><i class="icon-trash"></i> Kaldır</a>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="col-lg-offset-2 col-lg-10">
+                                <button class="btn btn-danger" type="submit">Kaydet</button>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </section>
+    </div>
+</div>
+
+<script>
+    /// seçilen fotografı anlık olarak yükler.
+    $(function () {
+        $("#secilenfoto").change(function () {
+            if (this.files && this.files[0]) {
+                var reader = new FileReader();
+                reader.onload = imageIsLoaded;
+                reader.readAsDataURL(this.files[0]);
+            }
+        });
+    });
+
+    function imageIsLoaded(e) {
+        $('#myImg').attr('src', e.target.result);
+    };
+
+    function setTwoNumberDecimal(el) {
+        el.value = parseFloat(el.value).toFixed(2);
+    };
+
+    $("#sergile").click(function () {
+        fotourl = $("#secilenfoto").val();
+        alert(fotourl);
+        document.getElementById("myImg").src = fotourl;
+    })
+</script>
+
+
+@section scripts{
+    <!--Validation Scripts-->
+    <script src="~/Scripts/jquery.validate.min.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+
+    <!--AddProduct Sayfası-->
+    <script type="text/javascript" src="~/OuterTools/FlatAdmin/assets/bootstrap-datetimepicker/js/bootstrap-datetimepicker.js"></script>
+    <script type="text/javascript" src="~/OuterTools/FlatAdmin/assets/bootstrap-colorpicker/js/bootstrap-colorpicker.js"></script>
+    <script type="text/javascript" src="~/OuterTools/FlatAdmin/assets/bootstrap-timepicker/js/bootstrap-timepicker.js"></script>
+    <script src="~/OuterTools/FlatAdmin/assets/jquery-multi-select/js/jquery.multi-select.js"></script>
+    <script src="~/OuterTools/FlatAdmin/assets/jquery-multi-select/js/jquery.quicksearch.js"></script>
+    @*<script src="~/OuterTools/FlatAdmin/js/common-scripts.js"></script>*@
+    <script src="~/OuterTools/FlatAdmin/js/advanced-form-components.js"></script>
+}

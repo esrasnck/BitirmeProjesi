@@ -1,0 +1,212 @@
+﻿@model List<AppUser>
+@{
+    ViewBag.Title = "Kullanıcı Listeleme Sayfası";
+
+}
+
+@if (Model != null)
+{
+    <section class="panel">
+        <header class="panel-heading">
+            Üye Listesi
+        </header>
+        <p>@ViewBag.hataliIslem</p>
+        <div class="panel-body">
+            <div class="adv-table">
+                <table cellpadding="0" cellspacing="0" border="0" class="display table table-bordered" id="hidden-table-info">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Kullanıcı Adı</th>
+                            <th>E-Posta</th>
+                            <th>Adı</th>
+                            <th>Soyadı</th>
+                            <th>Aktif Mi?</th>
+                            <th>Rolü</th>
+                            <th class="hidden-phone">Veri Durumu</th>
+                            <th class="hidden-phone">Güncelleme</th>
+                            <th class="hidden-phone">Silme</th>
+                            <th style="display:none"> Adres</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                        @foreach (AppUser item in Model)
+                        {
+                            <tr class="gradeX">
+                                <td>@item.ID</td>
+                                <td>@item.UserName</td>
+                                <td>@item.Email</td>
+                                @if (item.Profile != null)
+                                {
+                                    <td>@item.Profile.FirstName</td>
+                                    <td>@item.Profile.LastName</td>
+                                }
+                                else
+                                {
+                                    <td>Yok</td>
+                                    <td>Yok</td>
+                                }
+                                @*<td>@item.IsActive</td>*@
+                                <td>
+                                    @Html.DropDownListFor(x => x.FirstOrDefault(y => y.ID == item.ID).IsActive, new SelectListItem[] {
+            new SelectListItem(){Text="False", Value="0", Selected=item.IsActive },
+            new SelectListItem(){Text="True", Value="1", Selected=item.IsActive} }, new { onchange = "OtherDocument1(this.value)", @class = "form-control" })
+                                </td>
+
+
+                                <td>@Html.EnumDropDownListFor(x => x.FirstOrDefault(y => y.ID == item.ID).Role, new { onchange = "OtherDocument(this.value)", @class = "form-control" })</td>
+
+
+                                <td class="hidden-phone">@item.Status</td>
+                                <td class="center hidden-phone">
+                                    @Html.ActionLink("Güncelle", null, null, new { @class = "btn btn-warning", onclick = $"AppUserRoleUpdate({item.ID})" })
+                                </td>
+
+                                @*<td class="center hidden-phone">  @Ajax.ActionLink("Güncelle", "Deneme", "AppUser", new { area = "administrator", id = item.ID }, new AjaxOptions() { HttpMethod = "GET",  InsertionMode=InsertionMode.Replace }, new { @class = "btn  btn-success" })</td>*@
+
+
+                            <td class="center hidden-phone">
+                                @Html.ActionLink("Sil", "Delete", new { id = item.ID }, new { @class = "btn btn-danger" })
+                                @*@Ajax.ActionLink("Sil", "Delete", "AppUser", new { area = "administrator", id = item.ID }, new AjaxOptions() { HttpMethod = "GET" }, new { @class = "btn btn-danger" })*@
+                            </td>
+
+                                <td style="display:none">@item.Profile.Address</td>
+                            </tr>
+                        }
+
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+}
+
+<script type="text/javascript">
+    var appUserid;
+    var tutulanindex;
+    var index;
+
+    
+    function OtherDocument(documentValue) {
+
+        tutulanindex = documentValue;
+
+
+    };
+
+    function OtherDocument1(documentValue) {
+
+        index = documentValue;
+
+
+
+
+    };
+
+    function fnFormatDetails(oTable, nTr) {
+
+        var aData = oTable.fnGetData(nTr);
+
+
+        var sOut = '<table cellpadding="5" cellspacing="0" border="0" style="padding-left:50px;">';
+        sOut += '<tr><td>Rendering engine:</td><td><a href="Administrator/AppUser/AppUserRoleUpdate?id=' + aData[1] + '&secilenindex=' + aData[7] + '">' + aData[2] + ' details</a>  </td></tr>';
+        sOut += '<tr><td>Link to source:</td><td>Could provide a link here</td></tr>';
+        sOut += '<tr><td>Extra info:</td><td>And any further details here (images etc)</td></tr>';
+        sOut += '</table>';
+        return sOut;
+
+    };
+    function AppUserRoleUpdate(ID) {
+        if (index != null && tutulanindex == null) {
+            tutulanindex = -1;
+        }
+        else if (index == null && tutulanindex != null) {
+            index = -1;
+        }
+
+
+
+
+        $.ajax({
+            url: "https://localhost:44377/Administrator/AppUser/AppUserRoleUpdate",
+            type: "POST",
+            data: { id: ID, secilenindex: tutulanindex, IsActive: index }
+            //success: function (gelenVeri) {
+ 
+            //    window.location.reload(gelenVeri);
+
+            //}
+
+
+        });
+
+    };
+
+
+    /* Formating function for row details */
+    function fnFormatDetails(oTable, nTr) {
+        var aData = oTable.fnGetData(nTr);
+        var sOut = '<table cellpadding="5" cellspacing="0" border="0" style="padding-left:50px;">';
+        sOut += '<tr><td>Kullanıcının Adresi:</td><td> ' + aData[11] + '   </td></tr>';
+        /*  sOut += '<tr><td> Adı:</td><td> ' + aData[11] + '   </td></tr>';
+       sOut += '<tr><td>Soyadı:</td><td> ' + aData[5] + '   </td></tr>';
+       sOut += '<tr><td>Durumu:</td><td> ' + aData[5] + '   </td></tr>';
+         sOut += '<tr><td>Rolü:</td><td> ' + aData[6] + '   </td></tr>';
+       sOut += '<tr><td>Link to source:</td><td>Could provide a link here</td></tr>';
+        sOut += '<tr><td>Extra info:</td><td>And any further details here (images etc)</td></tr>'; */
+        sOut += '</table>';
+        return sOut;
+    }
+    $(document).ready(function () {
+        /*
+         * Insert a 'details' column to the table
+         */
+        var nCloneTh = document.createElement('th');
+        var nCloneTd = document.createElement('td');
+        nCloneTd.innerHTML = '<img src="/OuterTools/FlatAdmin/assets/advanced-datatable/examples/examples_support/details_open.png">';
+        nCloneTd.className = "center";
+        $('#hidden-table-info thead tr').each(function () {
+            this.insertBefore(nCloneTh, this.childNodes[0]);
+        });
+        $('#hidden-table-info tbody tr').each(function () {
+            this.insertBefore(nCloneTd.cloneNode(true), this.childNodes[0]);
+        });
+        /*
+         * Initialse DataTables, with no sorting on the 'details' column
+         */
+        var oTable = $('#hidden-table-info').dataTable({
+            "aoColumnDefs": [
+                { "bSortable": false, "aTargets": [0] }
+            ],
+            "aaSorting": [[1, 'asc']]
+        });
+        /* Add event listener for opening and closing details
+         * Note that the indicator for showing which row is open is not controlled by DataTables,
+         * rather it is done here
+         */
+        $('#hidden-table-info tbody td img').live('click', function () {
+            var nTr = $(this).parents('tr')[0];
+            if (oTable.fnIsOpen(nTr)) {
+                /* This row is already open - close it */
+                this.src = "/OuterTools/FlatAdmin/assets/advanced-datatable/examples/examples_support/details_open.png";
+                oTable.fnClose(nTr);
+            }
+            else {
+                /* Open this row */
+                this.src = "/OuterTools/FlatAdmin/assets/advanced-datatable/examples/examples_support/details_close.png";
+                oTable.fnOpen(nTr, fnFormatDetails(oTable, nTr), 'details');
+            }
+        });
+    });</script>
+
+
+
+
+
+@section scripts{
+
+
+    <script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
+}

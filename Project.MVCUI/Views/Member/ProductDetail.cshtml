@@ -1,0 +1,139 @@
+﻿@model Product
+@{
+    ViewBag.Title = "ProductDetail";
+    
+    ProductVM adaminurunu = ViewData["adaminurunu"] as ProductVM;
+}
+
+<!-- Bootstrap core CSS -->
+<link href="~/OuterTools/FlatAdmin/css/bootstrap.min.css" rel="stylesheet">
+<link href="~/OuterTools/FlatAdmin/css/bootstrap-reset.css" rel="stylesheet">
+<!--external css-->
+<link href="~/OuterTools/FlatAdmin/assets/font-awesome/css/font-awesome.css" rel="stylesheet" />
+<link href="~/OuterTools/FlatAdmin/assets/jquery-ui/jquery-ui-1.10.1.custom.min.css" rel="stylesheet" />
+<!-- Custom styles for this template -->
+<link href="~/OuterTools/FlatAdmin/css/style.css" rel="stylesheet">
+<link href="~/OuterTools/FlatAdmin/css/style-responsive.css" rel="stylesheet" />
+
+
+
+@if (ViewData["adaminurunu"] == null)
+{
+    <div class="col-md-3">
+        <section class="panel">
+            <div class="pro-img-box">
+                <img src=@Model.ImagePath alt="" />
+                <a href="@Url.Action("SepeteAt",new { id=Model.ID})" class="adtocart">
+                    <i class="icon-shopping-cart"></i>
+                </a>
+            </div>
+
+            <div class="panel-body text-center">
+                <h4>
+                    <a href="#" class="pro-title">
+                        @Model.ProductName
+                    </a>
+                </h4>
+                <p class="price">@Model.UnitPrice ₺</p>
+
+
+            </div>
+        </section>
+    </div>
+}
+else
+{
+    <div id="Urunler" class="row product-list">
+        <div class="col-md-5" style="margin-left:140px">
+            <section class="panel">
+                <div class="pro-img-box">
+                    <img src=@Model.ImagePath alt="" />
+                    <a href="@Url.Action("SepeteAt",new { id=Model.ID})" class="adtocart">
+                        <i class="icon-shopping-cart"></i>
+                    </a>
+                </div>
+
+                <div class="panel-body text-center">
+                    <h4>
+                        <a href="#" class="pro-title">
+                            @Model.ProductName
+                        </a>
+                    </h4>
+                    <p class="price">@Model.UnitPrice ₺</p>
+                    <h4 style="color:green" class="info">@ViewBag.info</h4>
+                    <h4>Özellikler</h4>
+                    <table class="table table-hover">
+                        <tr>
+
+                            <th style="text-align:center">Özellik Adı</th>
+                            <th style="text-align:center">Değer</th>
+
+                        </tr>
+
+
+                        @foreach (ProductFeature item in Model.ProductFeatures)
+                        {
+                            <tr>
+                                <td style="text-align:center"> @item.Feature.FeatureName</td>
+                                <td style="text-align:center"> @item.Value</td>
+                            </tr>
+                        }
+
+
+
+
+                    </table>
+
+
+
+
+
+                </div>
+            </section>
+        </div>
+
+        <div class="col-md-5" style="margin-right:100px">
+            <section class="panel">
+                <div class="pro-img-box">
+                    <img src=@adaminurunu.ImagePath alt="" />
+
+                </div>
+
+                <div class="panel-body text-center">
+                    <h4>
+                        <a href="#" class="pro-title">
+                            @adaminurunu.ProductName
+                        </a>
+                    </h4>
+                    <p class="price">@adaminurunu.UnitPrice ₺</p>
+                    <h4 style="color:crimson" class="info">@ViewBag.info2</h4>
+                    <h4>Özellikler</h4>
+
+                    <table class="table table-hover">
+                        <tr>
+
+                            <th style="text-align:center">Özellik Adı</th>
+                            <th style="text-align:center">Değer</th>
+
+                        </tr>
+
+
+
+                        <tr>
+                            <td style="text-align:center"> @adaminurunu.FeatureName</td>
+                            <td style="text-align:center"> @adaminurunu.Value</td>
+                        </tr>
+
+
+
+
+
+                    </table>
+
+                </div>
+            </section>
+        </div>
+    </div>
+
+}
+<script src="~/OuterTools/FlatAdmin/js/bootstrap.min.js"></script>

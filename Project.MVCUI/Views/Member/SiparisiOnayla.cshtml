@@ -1,0 +1,129 @@
+﻿@using Project.MVCUI.Models.VMClasses;
+@model Tuple<Order, PaymentVM>
+@{
+    ViewBag.Title = "SiparisiOnayla";
+    //Layout = "~/Areas/Administrator/Views/Shared/_Layout.cshtml";
+
+}
+
+
+
+<div class="panel-body">
+
+
+    <div class="form">
+
+        @using (Html.BeginForm("SiparisiOnayla", "Member", FormMethod.Post, new { @class = "cmxform form-horizontal tasi-form" }))
+        {
+            <div class="form-group ">
+                <label for="cname" class="control-label col-lg-2">TC</label>
+                <div class="col-lg-10">
+                    @Html.TextBoxFor(x => x.Item1.TC, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(x => x.Item1.TC, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-group ">
+                <label for="cname" class="control-label col-lg-2">Adres</label>
+                <div class="col-lg-10">
+                    @Html.TextBoxFor(x => x.Item1.Address, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(x=> x.Item1.Address, "", new { @class = "text-danger" } )
+                </div>
+            </div>
+            <div class="form-group ">
+                <label for="cname" class="control-label col-lg-2">İl</label>
+                <div class="col-lg-10">
+                    @Html.TextBoxFor(x => x.Item1.City, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(x => x.Item1.City, "", new { @class = "text-danger" } )
+                </div>
+            </div>
+            <div class="form-group ">
+                <label for="cname" class="control-label col-lg-2">İlçe</label>
+                <div class="col-lg-10">
+                    @Html.TextBoxFor(x => x.Item1.District, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(x => x.Item1.District, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-group ">
+                <label for="cname" class="control-label col-lg-2">Mahalle</label>
+                <div class="col-lg-10">
+                    @Html.TextBoxFor(x => x.Item1.Town, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(x => x.Item1.Town, "", new { @class = "text-danger" } )
+                </div>
+            </div>
+
+            <div class="form-group ">
+                <label for="cname" class="control-label col-lg-2">Telefon</label>
+                <div class="col-lg-10">
+                    @Html.TextBoxFor(x => x.Item1.Phone, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(x => x.Item1.Phone, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <hr />
+
+            <div class="form-group ">
+                <label for="cname" class="control-label col-lg-2">Kart Numarası</label>
+                <div class="col-lg-10">
+                    @Html.TextBoxFor(x => x.Item2.CardNumber, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(x => x.Item2.CardNumber, "", new { @class = "text-danger" } )
+                </div>
+            </div>
+
+            <div class="form-group ">
+                <label for="cname" class="control-label col-lg-2">Kart Uzerindeki Isim</label>
+                <div class="col-lg-10">
+                    @Html.TextBoxFor(x => x.Item2.FirstName, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(x => x.Item2.FirstName, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group ">
+                <label for="cname" class="control-label col-lg-2">Kart Uzerindeki Soyisim</label>
+                <div class="col-lg-10">
+                    @Html.TextBoxFor(x => x.Item2.LastName, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(x => x.Item2.LastName, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+
+            <div class="form-group ">
+                <label for="cname" class="control-label col-lg-2">Son Kullanım Tarihi (Ay)</label>
+                <div class="col-lg-10">
+                    @Html.TextBoxFor(x => x.Item2.ExpiryMonth, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(x => x.Item2.ExpiryMonth, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group ">
+                <label for="cname" class="control-label col-lg-2">Son Kullanım Tarihi (Yıl)</label>
+                <div class="col-lg-10">
+                    @Html.TextBoxFor(x => x.Item2.ExpiryYear, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(x => x.Item2.ExpiryYear, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group ">
+                <label for="cname" class="control-label col-lg-2">Güvenlik Kodu</label>
+                <div class="col-lg-10">
+                    @Html.TextBoxFor(x => x.Item2.SecurityNumber, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(x => x.Item2.SecurityNumber, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-lg-offset-2 col-lg-10">
+
+                    <button class="btn btn-danger">Kaydet</button>
+                    @Html.ActionLink("İptal", "ProductList", "Member", null, new { @class = "btn btn-default" })
+
+                </div>
+            </div>
+        }
+    </div>
+
+
+</div>
+
+<script src="~/OuterTools/FlatAdmin/js/bootstrap.min.js"></script>
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>

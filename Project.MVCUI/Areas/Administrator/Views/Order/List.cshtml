@@ -1,0 +1,193 @@
+﻿@model Tuple<List<Order>, List<OrderDetail>>
+@{
+    ViewBag.Title = "Sipariş Listesi";
+
+}
+
+
+<section class="panel">
+    <header class="panel-heading">
+        Sipariş Listesi
+    </header>
+    <div class="panel-body">
+        <div class="adv-table">
+
+
+            <table cellpadding="0" cellspacing="0" border="0" class="display table table-bordered" id="hidden-table-info">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Kullanıcı ID</th>
+                        <th>Tc</th>
+                        <th>Adres</th>
+                        <th>Sehir</th>
+                        <th>Ilce</th>
+                        <th>Mahalle</th>
+                        <th>Telefon</th>
+                        <th>Siparis Durumu</th>
+                        <th>Olusturulma Tarihi</th>
+                        <th>Güncellenme Tarihi</th>
+                        <th>Silinme Tarihi</th>
+                        <th class="hidden-phone">Veri Durumu</th>
+                        <th class="hidden-phone">Güncelleme</th>
+                        <th class="hidden-phone">Silme</th>
+                        <th style="display:none">Urun Adı/th>
+                        <th style="display:none">Birim Fiyatı</th>
+                        <th style="display:none">Stok Miktarı</th>
+                     
+                    </tr>
+                </thead>
+
+                <tbody>
+
+
+
+                    @for (int i = 0; i < Model.Item1.Count; i++)
+                    {
+                        <tr class="gradeX">
+                            <td>@Model.Item1[i].ID</td>
+                            <td>@Model.Item1[i].AppUserID</td>
+                            <td>@Model.Item1[i].TC</td>
+                            <td>@Model.Item1[i].Address</td>
+                            <td>@Model.Item1[i].City</td>
+                            <td>@Model.Item1[i].Town</td>
+                            <td>@Model.Item1[i].District</td>
+                            <td>@Model.Item1[i].Phone</td>
+                            <td>
+                                @Html.EnumDropDownListFor(x => x.Item1.FirstOrDefault(y => y.ID == Model.Item1[i].ID).SiparisDurumu, new { onchange = "OtherDocument(this.value)",  @class= "form-control" })
+
+                            </td>
+                            <td>@Model.Item1[i].CreatedDate</td>
+                            <td>@Model.Item1[i].ModifiedDate</td>
+                            <td>@Model.Item1[i].DeletedDate</td>
+
+                            <td class="hidden-phone">@Model.Item1[i].Status</td>
+                            <td class="center hidden-phone">  @Html.ActionLink("Güncelle", null, null, new { @class = "btn btn-warning", onclick = $"OrderUpdate({Model.Item1[i].ID})" }) </td>
+                            <td class="center hidden-phone">  @Html.ActionLink("Sil", "Delete", new { id = Model.Item1[i].ID }, new { @class = "btn btn-danger" })        </td>
+
+                            <td style="display:none">@Model.Item2[i].Product.ProductName</td>
+                            <td style="display:none">@Model.Item2[i].Product.UnitPrice</td>
+                            <td style="display:none">@Model.Item2[i].Product.UnitsInStock</td>
+                         
+                        </tr>
+                    }
+
+
+
+                </tbody>
+
+
+
+            </table>
+           
+
+        </div>
+    </div>
+</section>
+
+
+
+<script type="text/javascript">
+    /* Formating function for row details */
+    var orderid;
+    var tutulanindex;
+
+    function OtherDocument(documentValue) {
+
+        tutulanindex = documentValue;
+        
+
+    };
+
+
+
+    function fnFormatDetails(oTable, nTr) {
+
+        var aData = oTable.fnGetData(nTr);
+        if (tutulanindex != null) {
+            orderid = aData[1];
+            aData[7] = tutulanindex
+        }
+        else {
+            aData[7] = -1
+        }
+
+      
+        var sOut = '<table cellpadding="5" cellspacing="0" border="0" style="padding-left:50px;">';
+         sOut += '<tr><td>Siparis Durumu Güncelleme:</td><td><a href="/Administrator/Order/OrderStatusUpdate?id=' + aData[1] + '&secilenindex=' + aData[7] + '">' + aData[2] + ' details</a>  </td></tr>';
+         sOut += '<tr><td> Urun Adı:</td><td> ' + aData[16] + '   </td></tr>';
+        sOut += '<tr><td> Birim Fiyatı:</td><td> ' + aData[17] + '   </td></tr>';
+         sOut += '<tr><td>Stok Miktarı:</td><td> ' + aData[18] + '   </td></tr>';
+       
+        sOut += '</table>';
+        return sOut;
+    };
+
+    function OrderUpdate(tonton) {
+        
+        $.ajax({
+            url: "https://localhost:44377/Administrator/Order/OrderStatusUpdate",
+            type: "Post",
+            data: { id: tonton, secilenindex: tutulanindex },
+            success: function (gelenVeri) {
+                window.location.href = gelenVeri.url;
+
+               
+            }
+        });
+       
+    };
+    $(document).ready(function () {
+        /*
+         * Insert a 'details' column to the table
+         */
+        var nCloneTh = document.createElement('th');
+        var nCloneTd = document.createElement('td');
+        nCloneTd.innerHTML = '<img src="/OuterTools/FlatAdmin/assets/advanced-datatable/examples/examples_support/details_open.png">';
+        nCloneTd.className = "center";
+        $('#hidden-table-info thead tr').each(function () {
+            this.insertBefore(nCloneTh, this.childNodes[0]);
+        });
+        $('#hidden-table-info tbody tr').each(function () {
+            this.insertBefore(nCloneTd.cloneNode(true), this.childNodes[0]);
+        });
+        /*
+         * Initialse DataTables, with no sorting on the 'details' column
+         */
+        var oTable = $('#hidden-table-info').dataTable({
+            "aoColumnDefs": [
+                { "bSortable": false, "aTargets": [0] }
+            ],
+            "aaSorting": [[1, 'asc']]
+        });
+        /* Add event listener for opening and closing details
+         * Note that the indicator for showing which row is open is not controlled by DataTables,
+         * rather it is done here
+         */
+        $('#hidden-table-info tbody td img').live('click', function () {
+            var nTr = $(this).parents('tr')[0];
+            if (oTable.fnIsOpen(nTr)) {
+                /* This row is already open - close it */
+                this.src = "/OuterTools/FlatAdmin/assets/advanced-datatable/examples/examples_support/details_open.png";
+                oTable.fnClose(nTr);
+            }
+            else {
+                /* Open this row */
+                this.src = "/OuterTools/FlatAdmin/assets/advanced-datatable/examples/examples_support/details_close.png";
+                oTable.fnOpen(nTr, fnFormatDetails(oTable, nTr), 'details');
+            }
+        });
+    
+        function fnFormatDetails(oTable, nTr) {
+        var aData = oTable.fnGetData(nTr);
+        var sOut = '<table cellpadding="5" cellspacing="0" border="0" style="padding-left:50px;">';
+        sOut += '<tr><td> Urun Adı:</td><td> ' + aData[16] + '   </td></tr>';
+        sOut += '<tr><td> Birim Fiyatı:</td><td> ' + aData[17] + '   </td></tr>';
+         sOut += '<tr><td>Stok Miktarı:</td><td> ' + aData[18] + '   </td></tr>';
+       /* sOut += '<tr><td>Link to source:</td><td>Could provide a link here</td></tr>';
+        sOut += '<tr><td>Extra info:</td><td>And any further details here (images etc)</td></tr>';*/
+        sOut += '</table>';
+        return sOut;
+    };
+    });</script>
+

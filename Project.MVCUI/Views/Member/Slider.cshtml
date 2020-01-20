@@ -1,0 +1,29 @@
+﻿@model PagedList.IPagedList<Product>
+
+@if (Model != null)
+{
+    foreach (Product item in Model)
+    {
+        <div class="col-md-4">
+            <section class="panel">
+                <div class="pro-img-box">
+                    <img src="@item.ImagePath" alt="" />
+                    <a href="@Url.Action("SepeteAt",new { id=item.ID})" class="adtocart">
+                        <i class="icon-shopping-cart"></i>
+                    </a>
+                </div>
+
+                <div class="panel-body text-center">
+                    <h4>
+                        <a href="#" class="pro-title">
+                            @item.ProductName
+                        </a>
+                    </h4>
+                    <p class="price">$@item.UnitPrice</p>
+                    <p> @Html.ActionLink("Ürün Detay", "ProductDetail", new { item = item.ID })</p>
+                </div>
+            </section>
+        </div>
+    }
+}
+

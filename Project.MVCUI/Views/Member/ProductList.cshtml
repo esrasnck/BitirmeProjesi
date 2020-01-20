@@ -1,0 +1,278 @@
+﻿@using PagedList
+@using PagedList.Mvc
+@model PagedList.IPagedList<Product>
+@{
+    ViewBag.Title = "ProductList";
+
+}
+
+<link href="~/OuterTools/FlatAdmin/css/bootstrap.min.css" rel="stylesheet">
+<link href="~/OuterTools/FlatAdmin/css/bootstrap-reset.css" rel="stylesheet">
+<!--external css-->
+<link href="~/OuterTools/FlatAdmin/assets/font-awesome/css/font-awesome.css" rel="stylesheet" />
+<link href="~/OuterTools/FlatAdmin/assets/jquery-ui/jquery-ui-1.10.1.custom.min.css" rel="stylesheet" />
+<!-- Custom styles for this template -->
+<link href="~/OuterTools/FlatAdmin/css/style.css" rel="stylesheet">
+<link href="~/OuterTools/FlatAdmin/css/style-responsive.css" rel="stylesheet" />
+
+@if (TempData["odeme1"] != null && TempData["Kargo"] != null)
+
+{
+
+    <div class="row">
+        <div class="col-md-5">
+            <div class="alert alert-success" role="alert">
+                <h4 style="color:darkslategrey"> @TempData["odeme1"] </h4>
+            </div>
+        </div>
+        <div class="col-md-5">
+            <div class="alert alert-success" role="alert" style="">
+                <h4 style="color:darkslategrey">@TempData["Kargo"] </h4>
+            </div>
+        </div>
+
+        <div class="col-md-2">
+            <a href="@Url.Action("Fatura", "Member")" class="btn btn-success btn-lg">
+                <i class="fa fa-plus-square"></i>
+                Fatura
+            </a>
+        </div>
+    </div>
+}
+else if (TempData["odeme"] != null)
+{
+    <div class="alert alert-danger " role="alert">
+        <h4 style="color:crimson">@TempData["odeme"] </h4>
+    </div>
+
+}
+else if (TempData["Kargo1"] != null)
+{
+    <div class="alert alert-danger" role="alert">
+        <h4 style="color:crimson">@TempData["Kargo1"] </h4>
+    </div>
+
+}
+else if (TempData["SiparisOnaylanmadı"] != null)
+{
+    <div class="alert alert-danger" role="alert">
+        <h4 style="color:crimson">@TempData["SiparisOnaylanmadı"] </h4>
+    </div>
+}
+
+@**@
+
+<div class="row">
+    <div class="col-md-3">
+        @*<section class="panel">
+                <div class="panel-body">
+                    <input id="Filtre" type="text" placeholder="Keyword Search" class="form-control">
+                </div>
+            </section>*@
+
+
+
+    </div>
+    <div class="col-md-12">
+        <section class="panel">
+            <div class="panel-body">
+
+                <div class="col-md-3">
+                    <section class="panel">
+                        <header class="panel-heading">
+                            Fiyat Aralığı
+                        </header>
+                        <div class="panel-body sliders">
+                            <div id="slider-range" class="slider"></div>
+                            <div class="slider-info">
+                                <span id="slider-range-amount"></span>
+                            </div>
+
+                        </div>
+                    </section>
+                </div>
+
+
+
+
+                <div class="pull-right">
+                    <br />
+                    <ul class="pagination pagination-sm pro-page-list">
+
+                        @Html.PagedListPager((IPagedList)Model, sayfa => Url.Action("ProductList", new { item = ViewBag.kategori, sayfa }))
+                    </ul>
+
+                </div>
+            </div>
+        </section>
+
+
+
+        <div id="Urunler" class="row product-list">
+
+            @foreach (Product item in Model)
+            {
+
+                <div class="col-md-3">
+                    <section class="panel">
+                        <div class="pro-img-box">
+                            <img src="@item.ImagePath" alt="" />
+                            <a href="@Url.Action("SepeteAt",new { id=item.ID})" class="adtocart">
+                                <i class="icon-shopping-cart"></i>
+                            </a>
+                        </div>
+
+                        <div class="panel-body text-center">
+                            <h4>
+                                <a href="#" class="pro-title">
+                                    @item.ProductName
+                                </a>
+                            </h4>
+                            <p class="price">$@item.UnitPrice</p>
+                            <p> @Html.ActionLink("Ürün Detay", "ProductDetail", new { item = item.ID })</p>
+
+                        </div>
+                    </section>
+                </div>
+            }
+
+
+
+
+        </div>
+
+
+
+
+
+
+
+    </div>
+</div>
+
+<script src="~/OuterTools/FlatAdmin/js/jquery.js"></script>
+<script src="~/OuterTools/FlatAdmin/js/bootstrap.min.js"></script>
+<script class="include" type="text/javascript" src="~/OuterTools/FlatAdmin/js/jquery.dcjqaccordion.2.7.js"></script>
+<script src="~/OuterTools/FlatAdmin/js/jquery.scrollTo.min.js"></script>
+<script src="~/OuterTools/FlatAdmin/js/jquery.nicescroll.js" type="text/javascript"></script>
+<script src="~/OuterTools/FlatAdmin/assets/jquery-ui/jquery-ui-1.10.1.custom.min.js" type="text/javascript"></script>
+<script src="~/OuterTools/FlatAdmin/js/jquery.ui.touch-punch.min.js"></script>
+<script src="~/OuterTools/FlatAdmin/js/jquery.customSelect.min.js"></script>
+
+<script src="~/OuterTools/FlatAdmin/js/respond.min.js"></script>
+
+
+<!--common script for all pages-->
+<script src="~/OuterTools/FlatAdmin/js/common-scripts.js"></script>
+
+<script src="~/OuterTools/FlatAdmin/js/sliders.js"></script>
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+
+        $(function () {
+            $('select.styled').customSelect();
+        });
+    });
+
+
+
+
+</script>
+
+
+
+<script>
+    $(function () {
+
+        $("#Filtre").keyup(function () {
+
+            $("#Urunler").empty(); //Urunleri Temızlıyoruz!!!
+
+            var filtre = $("#Filtre").val();
+
+
+
+            $.get("/Member/Filtre/?item=" + filtre + "", function (gelenVeri) {
+
+                $("#Urunler").html(gelenVeri);
+            })
+        })
+    });
+
+    $("#slider-range").slider({
+        range: true,
+        min: 0,
+        max: 1000,
+        values: [50, 300],
+        slide: function (event, ui) {
+
+            $("#slider-range-amount").text("" + ui.values[0] + " ₺ - " + ui.values[1] + " ₺ ");
+
+            $("#Urunler").empty(); //listeyi bosaltıyoruz
+
+
+            $.get("/Member/Slider/?sayi1=" + ui.values[0] + "&sayi2=" + ui.values[1] + "", function (gelenVeri) {
+
+                $("#Urunler").html(gelenVeri);
+            })
+
+
+        }
+    });
+
+    $("#slider-range-amount").text($("#slider-range").slider("values", 0) + " ₺ - " + $("#slider-range").slider("values", 1) + " ₺");
+</script>
+
+
+
+
+@*<script>
+        $(function () {
+
+            $("#Filtre").keyup(function () {
+
+                $("#Urunler").empty(); //Urunleri Temızlıyoruz!!!
+
+                var filtre = $("#Filtre").val();
+
+                $.get("/Member/Filtre/?item=" + filtre + "", function (gelenVeri) {
+
+                    $("#Urunler").html(gelenVeri);
+                })
+
+            })
+
+
+
+        });
+
+
+    </script>
+
+    <script>
+          var Sliders = function () {
+        $("#slider-range").slider({
+            range: true,
+            min: 0,
+            max: 500,
+            values: [50, 300],
+            slide: function (event, ui) {
+
+                $("#slider-range-amount").text("TL" + ui.values[0] + " * TL" + ui.values[1]);
+                //$("#furkan").text("Dolar" + ui.values[0]);
+
+
+                $("#Urunler").empty(); //listeyi bosaltıyoruz
+
+
+                $.get("/Member/Slider/?sayi1=" + ui.values[0] + "&sayi2=" + ui.values[1] + "", function (gelenVeri) {
+
+                    $("#Urunler").html(gelenVeri);
+                })
+
+
+            }
+        });
+    </script>*@

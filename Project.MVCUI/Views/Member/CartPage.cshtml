@@ -1,0 +1,87 @@
+﻿@using Project.MVCUI.Models.VMClasses
+@model Cart
+
+@{
+
+    ViewBag.Title = "CartPage";
+
+}
+<link href="~/OuterTools/FlatAdmin/css/bootstrap.min.css" rel="stylesheet">
+<link href="~/OuterTools/FlatAdmin/css/bootstrap-reset.css" rel="stylesheet">
+<!--external css-->
+<link href="~/OuterTools/FlatAdmin/assets/font-awesome/css/font-awesome.css" rel="stylesheet" />
+<link href="~/OuterTools/FlatAdmin/assets/jquery-ui/jquery-ui-1.10.1.custom.min.css" rel="stylesheet" />
+<!-- Custom styles for this template -->
+<link href="~/OuterTools/FlatAdmin/css/style.css" rel="stylesheet">
+<link href="~/OuterTools/FlatAdmin/css/style-responsive.css" rel="stylesheet" />
+
+
+@if (Session["scart"] == null)
+{
+    <h3 style="color:red">@TempData["message"]  </h3>
+}
+else if (Session["member"] == null)
+{
+    <h3 style="color:red">@TempData["UyeDegil"]  </h3>
+}
+else
+{
+    <div>
+        <div id="Sepetim" class="row product-list">
+            <div class="col-lg-7" style="margin-left:60px">
+
+                @foreach (CartItem item in Model.Sepetim)
+                {
+
+                    <div class="card m-md-auto" style="max-width: 800px; max-height:800px;">
+                        <section class="panel align-content-around">
+                            <div class="row font-weight-normal">
+                                <div class="col-md-5">
+                                    <img src="@item.ImagePath" class="card-img" alt="">
+                                </div>
+                                <div class="col-md-7">
+                                    <div class="card-body">
+                                        <p> <h4 class="card-title" style="margin-top:20px">Ürün Adı : @item.Name</h4> </p>
+
+                                        <p>   <h4 class="card-text">Ürün Fiyatı : @item.Price ₺</h4>  </p>
+
+                                        <p>  <h4 class="card-text"> Ürün Adedi : @item.Amount </h4> </p>
+
+                                        <p>  <h4 class="card-text"> Ürün toplam : @item.SubTotal </h4> </p>
+
+                                        <p> <h4> @Html.ActionLink("   Sepetten Cıkar", "Delete", new { id = item.ID }, new { @class = "btn btn-danger icon-trash" }) </h4></p>
+                                        <br />
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+
+                    </div>
+                }
+
+
+            </div>
+            <div class="col-sm-4" style="margin-right:15px">
+                <div id="Sepetim" class="row product-list" style="margin-left:140px">
+
+                    <div class="alert alert-success alert-block fade in" sytle="margin-left:50px">
+                        <p class="font-weight-bolder" style="margin-top:20px"> <h4> Toplam Ödenecek Miktar : @Model.TotalPrice ₺ </h4> </p>
+                        <h4 style="text-align:right"> @Html.ActionLink("Alısverişe devam", "ProductList", null, new { @class = "btn btn-primary" }) </h4>
+                        <h4 style="text-align:right"> @Html.ActionLink("Siparişi Onayla", "SiparisiOnayla", null, new { @class = "btn btn-success" }) </h4>
+                        @*<div class="panel-body text-sm-center" style="margin-left:170px">
+                                @Html.ActionLink("Alısverişe devam", "ProductList", null, new { @class = "btn btn-primary" })
+                            </div>
+                            <div class="panel-body text-sm-center" style="margin-left:180px">
+                                @Html.ActionLink("Siparişi Onayla", "SiparisiOnayla", null, new { @class = "btn btn-success" })
+                            </div>*@
+                    </div>
+
+                </div>
+
+
+            </div>
+        </div>
+
+    </div>
+}
+<script src="~/OuterTools/FlatAdmin/js/bootstrap.min.js"></script>

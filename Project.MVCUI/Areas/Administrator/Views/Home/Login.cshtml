@@ -1,0 +1,72 @@
+﻿@model AppUser
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="Mr. Root">
+    <meta name="keyword" content="">
+    <link rel="shortcut icon" href="img/favicon.png">
+
+    <title>Admin Giriş Sayfası</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="~/OuterTools/FlatAdmin/css/bootstrap.min.css" rel="stylesheet">
+    <link href="~/OuterTools/FlatAdmin/css/bootstrap-reset.css" rel="stylesheet">
+
+    <!--external css-->
+    <link href="~/OuterTools/FlatAdmin/assets/font-awesome/css/font-awesome.css" rel="stylesheet" />
+
+    <!-- Custom styles for this template -->
+    <link href="~/OuterTools/FlatAdmin/css/style.css" rel="stylesheet">
+    <link href="~/OuterTools/FlatAdmin/css/style-responsive.css" rel="stylesheet" />
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 tooltipss and media queries -->
+    <script src="~/Scripts/jquery-3.3.1.min.js"></script>
+    <script src="~/Scripts/jquery.validate.min.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+    <script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
+
+    <style>
+        #Item2_Address {
+            resize: none;
+        }
+    </style>
+</head>
+<body class="login-body">
+    <div class="container">
+        @using (Html.BeginForm("Login", "Home", new { area = "administrator" }, FormMethod.Post, new { @class = "form-signin" }))
+        {
+            @Html.AntiForgeryToken()
+
+            <h2 class="form-signin-heading">Yönetim Paneli</h2>
+            <div class="login-wrap">
+                <p>Lütfen Bilgilerinizi Giriniz</p>
+                @if (ViewBag.Hatali != null)
+                {
+                    <p style="color:red">@ViewBag.Hatali</p>
+                }
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                <div class="form-group">
+                    @Html.TextBoxFor(x => x.UserName, new { @class = "form-control", placeholder = "Kullanıcı Adı Giriniz" })
+                    @Html.ValidationMessageFor(x => x.UserName, "", new { @class = "text-danger" })
+                </div>
+                <div class="form-group">
+                    @Html.TextBoxFor(x => x.Password, new { @class = "form-control", placeholder = "Şifre Giriniz" })
+                    @Html.ValidationMessageFor(x => x.Password, "", new { @class = "text-danger" })
+                </div>
+                <div>
+                    <button class="btn btn-lg btn-login btn-block">Giriş Yap</button>
+                </div>
+            </div>
+        }
+    </div>
+</body>
+</html>
+

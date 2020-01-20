@@ -1,0 +1,244 @@
+﻿<!DOCTYPE html>
+@{ 
+    string Ad;
+    string Soyad;
+
+    if (Session["admin"] != null)
+    {
+        Ad = (Session["admin"] as AppUser).Profile.FirstName;
+        Soyad= (Session["admin"] as AppUser).Profile.LastName;
+    }
+    else
+    {
+        Ad = "anonim";
+        Soyad = null;
+    }
+}
+
+
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="Mosaddek">
+    <meta name="keyword" content="FlatLab, Dashboard, Bootstrap, Admin, Template, Theme, Responsive, Fluid, Retina">
+    <link rel="shortcut icon" href="img/favicon.png">
+
+    <title>@ViewBag.Title</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="~/OuterTools/FlatAdmin/css/bootstrap.min.css" rel="stylesheet">
+    <link href="~/OuterTools/FlatAdmin/css/bootstrap-reset.css" rel="stylesheet">
+
+    <!--external css-->
+    <!--external script kodları (Jquery)-->
+    <script src="~/OuterTools/FlatAdmin/js/jquery.js"></script>
+    <script src="~/OuterTools/FlatAdmin/js/jquery-1.8.3.min.js"></script>
+    <script src="~/OuterTools/FlatAdmin/js/bootstrap.min.js"></script>
+    <link href="~/OuterTools/FlatAdmin/assets/font-awesome/css/font-awesome.css" rel="stylesheet" />
+    <link href="~/OuterTools/FlatAdmin/assets/jquery-ui/jquery-ui-1.10.1.custom.min.css" rel="stylesheet" />
+    <link href="~/OuterTools/FlatAdmin/assets/advanced-datatable/media/css/demo_page.css" rel="stylesheet" />
+    <link href="~/OuterTools/FlatAdmin/assets/advanced-datatable/media/css/demo_table.css" rel="stylesheet" />
+
+    <!--To be deleted-->
+    <link href="~/OuterTools/FlatAdmin/assets/jquery-easy-pie-chart/jquery.easy-pie-chart.css" rel="stylesheet" type="text/css" media="screen" />
+    <link rel="stylesheet" href="~/OuterTools/FlatAdmin/css/owl.carousel.css" type="text/css">
+    <!--To be deleted-->
+    <!-- Custom styles for this template -->
+    <link href="~/OuterTools/FlatAdmin/css/style.css" rel="stylesheet">
+    <link href="~/OuterTools/FlatAdmin/css/style-responsive.css" rel="stylesheet" />
+    <script src="~/OuterTools/FlatAdmin/js/sliders.js" type="text/javascript"></script>
+
+    <!--AddProduct Sayfası-->
+    <link rel="stylesheet" type="text/css" href="~/OuterTools/FlatAdmin/assets/bootstrap-timepicker/compiled/timepicker.css" />
+    <link rel="stylesheet" type="text/css" href="~/OuterTools/FlatAdmin/assets/bootstrap-colorpicker/css/colorpicker.css" />
+    <link href="~/OuterTools/FlatAdmin/assets/jquery-multi-select/css/multi-select.css" rel="stylesheet" />
+    <link rel="stylesheet" href="~/OuterTools/FlatAdmin/assets/data-tables/DT_bootstrap.css" />
+    @RenderSection("header", false)
+
+
+</head>
+
+<body>
+
+    <section id="container">
+
+        <!--header start-->
+        <header class="header white-bg">
+            <div class="sidebar-toggle-box">
+                <div data-original-title="Toggle Navigation" data-placement="right" class="icon-reorder tooltips"></div>
+            </div>
+
+            <!--logo start-->
+            <a href="@Url.Action("ListProduct", "Product", new { area="administrator"})" class="logo">Bilge Adam<span>lab</span></a>
+
+
+            <div class="top-nav ">
+                <!--search & user info start-->
+                <ul class="nav pull-right top-menu">
+
+                    <!-- user login dropdown start-->
+                    <li class="dropdown">
+                        <a data-toggle="dropdown" class="dropdown-toggle" href="#">
+                            @*<img alt="" src="~/OuterTools/FlatAdmin/img/avatar1_small.jpg">*@
+                            <span class="username"> @(Ad + Soyad) </span>
+                            <b class="caret"></b>
+                        </a>
+                        <ul class="dropdown-menu extended logout">
+                            <div class="log-arrow-up"></div>
+                            @*<li><a href="#"><i class=" icon-suitcase"></i>Profil</a></li>
+                                <li><a href="#"><i class="icon-cog"></i> Ayarlar</a></li>
+                                <li><a href="#"><i class="icon-bell-alt"></i> Uyarılar</a></li>*@
+                            <li><a href="/Administrator/Home/LogOut"><i class="icon-key"></i> Çıkış</a></li>
+                        </ul>
+                    </li>
+                    <!-- user login dropdown end -->
+                </ul>
+                <!--search & user info end-->
+            </div>
+
+        </header>
+        <!--header end-->
+        <!--sidebar start-->
+        <aside>
+            <div id="sidebar" class="nav-collapse ">
+
+                <!-- sidebar menu start-->
+                <ul class="sidebar-menu" id="nav-accordion">
+
+                    <li>
+
+                        <a class="active" href="">
+                            <i class="icon-dashboard"></i>
+                            <span>Ana Sayfa</span>
+                        </a>
+                    </li>
+
+                    <li class="sub-menu">
+                        <a href="javascript:;">
+                            <i class="icon-laptop"></i>
+                            <span>Ürünler</span>
+                        </a>
+                        <ul class="sub">
+                            <li>@Html.ActionLink("Ürün Listesi", "ListProduct", "Product", new { area = "administrator" }, null)</li>
+                            <li>@Html.ActionLink("Ürün Ekleme", "AddProduct", "Product", new { area = "administrator" }, null)</li>
+                        </ul>
+                    </li>
+
+                    <li class="sub-menu">
+                        <a href="javascript:;">
+                            <i class="icon-laptop"></i>
+                            <span>Kategoriler</span>
+                        </a>
+                        <ul class="sub">
+                            <li>@Html.ActionLink("Kategori Listesi", "ListCategory", "Category", new { area = "administrator" }, null)</li>
+                            <li>@Html.ActionLink("Kategori Ekleme", "AddCategory", "Category", new { area = "administrator" }, null)</li>
+                        </ul>
+                    </li>
+
+                    <li class="sub-menu">
+                        <a href="javascript:;">
+                            <i class="icon-laptop"></i>
+                            <span>Özellikler</span>
+                        </a>
+                        <ul class="sub">
+                            <li>@Html.ActionLink("Özellik Listesi", "List", "Feature", new { area = "administrator" }, null)</li>
+                            <li>@Html.ActionLink("Özellik Ekleme", "Add", "Feature", new { area = "administrator" }, null)</li>
+                        </ul>
+                    </li>
+
+                    <li class="sub-menu">
+                        <a href="javascript:;">
+                            <i class="icon-laptop"></i>
+                            <span>Siparişler</span>
+                        </a>
+                        <ul class="sub">
+                            <li>@Html.ActionLink("Sipariş Listesi", "List", "Order", new { area = "administrator" }, null)</li>
+
+                        </ul>
+                    </li>
+
+                    <li class="sub-menu">
+                        <a href="javascript:;">
+                            <i class="icon-laptop"></i>
+                            <span>Kullanıcılar</span>
+                        </a>
+                        <ul class="sub">
+                            <li>@Html.ActionLink("Üye Listesi", "List", "AppUser", new { area = "administrator" }, null)</li>
+                            @*<li>@Html.ActionLink("Üye Ekleme", "Add", "AppUser", new { area = "administrator" }, null)</li>
+                                <li>@Html.ActionLink("Yetkilendirme", "Add", "AppUser", new { area = "administrator" }, null)</li>*@
+                        </ul>
+                    </li>
+
+                </ul>
+                <!-- sidebar menu end-->
+
+            </div>
+        </aside>
+        <!--sidebar end-->
+        <!--main content start-->
+        <section id="main-content">
+            <section class="wrapper">
+                @RenderBody()
+            </section>
+        </section>
+        <!--main content end-->
+        <!--footer start-->
+        <footer class="site-footer">
+            <div class="text-center">
+                2019 &copy; YMS 3132
+                <a href="#" class="go-top">
+                    <i class="icon-angle-up"></i>
+                </a>
+            </div>
+        </footer>
+        <!--footer end-->
+
+    </section>
+
+    <!-- js placed at the end of the document so the pages load faster -->
+
+    <script type="text/javascript" language="javascript" src="~/OuterTools/FlatAdmin/assets/advanced-datatable/media/js/jquery.js"></script>
+
+    <script class="include" type="text/javascript" src="~/OuterTools/FlatAdmin/js/jquery.dcjqaccordion.2.7.js"></script>
+    <script src="~/OuterTools/FlatAdmin/js/jquery.scrollTo.min.js"></script>
+    <script src="~/OuterTools/FlatAdmin/js/jquery.nicescroll.js" type="text/javascript"></script>
+    <script src="~/OuterTools/FlatAdmin/js/jquery.sparkline.js" type="text/javascript"></script>
+    <script src="~/OuterTools/FlatAdmin/assets/jquery-easy-pie-chart/jquery.easy-pie-chart.js"></script>
+    <script src="~/OuterTools/FlatAdmin/js/owl.carousel.js"></script>
+    <script src="~/OuterTools/FlatAdmin/js/jquery.ui.touch-punch.min.js"></script>
+    <script src="~/OuterTools/FlatAdmin/js/jquery.customSelect.min.js"></script>
+    <script src="~/OuterTools/FlatAdmin/js/respond.min.js"></script>
+    <script type="text/javascript" language="javascript" src="~/OuterTools/FlatAdmin/assets/advanced-datatable/media/js/jquery.dataTables.js"></script>
+
+    <!--common script for all pages-->
+    <script src="~/OuterTools/FlatAdmin/js/common-scripts.js"></script>
+
+    <!--script for this page-->
+    <script src="~/OuterTools/FlatAdmin/js/sparkline-chart.js"></script>
+    <script src="~/OuterTools/FlatAdmin/js/easy-pie-chart.js"></script>
+    <script src="~/OuterTools/FlatAdmin/js/count.js"></script>
+
+
+    @RenderSection("scripts", false)
+
+
+    <script type="text/javascript" src="~/OuterTools/FlatAdmin/assets/data-tables/jquery.dataTables.js"></script>
+    <script type="text/javascript" src="~/OuterTools/FlatAdmin/assets/data-tables/DT_bootstrap.js"></script>
+
+    <!--script for this page only-->
+    <script src="~/OuterTools/FlatAdmin/js/editable-table.js"></script>
+
+
+
+    <!-- END JAVASCRIPTS -->
+    EditableTable.ini
+    <script>
+        jQuery(document).ready(function () {
+            t();
+        });
+    </script>
+
+</body>
+</html>

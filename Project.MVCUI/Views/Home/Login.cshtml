@@ -1,0 +1,79 @@
+﻿@model AppUser
+@{
+    Layout = null;
+
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="Mosaddek">
+    <meta name="keyword" content="FlatLab, Dashboard, Bootstrap, Admin, Template, Theme, Responsive, Fluid, Retina">
+    <link rel="shortcut icon" href="img/favicon.png">
+    <title>FlatLab - Flat & Responsive Bootstrap Admin Template</title>
+    <!-- Bootstrap core CSS -->
+
+
+    <link href="~/OuterTools/FlatAdmin/css/bootstrap.min.css" rel="stylesheet">
+    <link href="~/OuterTools/FlatAdmin/css/bootstrap-reset.css" rel="stylesheet">
+    <!--external css-->
+    <link href="~/OuterTools/FlatAdmin/assets/font-awesome/css/font-awesome.css" rel="stylesheet" />
+    <!-- Custom styles for this template -->
+    <link href="~/OuterTools/FlatAdmin/css/style.css" rel="stylesheet">
+    <link href="~/OuterTools/FlatAdmin/css/style-responsive.css" rel="stylesheet" />
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 tooltipss and media queries -->
+    <!--[if lt IE 9]>
+    <script src="js/html5shiv.js"></script>
+    <script src="js/respond.min.js"></script>
+    <![endif]-->
+
+    <style>
+
+        #Item2_Address {
+            resize: none;
+        }
+    </style>
+</head>
+<body class="login-body">
+
+    <div class="container">
+
+        @using (Html.BeginForm("Login", "Home", FormMethod.Post, new { @class = "form-signin" }))
+        {
+
+            <h2 class="form-signin-heading">Üye Girişi</h2>
+            <div class="login-wrap">
+                <p><h4 style="color:darkgreen" align="center">@TempData["HesapAktif"]</h4></p>
+
+
+                <p>Lutfen hesap bilgilerinizi giriniz</p>
+
+                @Html.TextBoxFor(x => x.UserName, new { @class = "form-control", placeholder = "Kullanıcı Adı giriniz", style = "color:black" })
+
+                @Html.PasswordFor(x => x.Password, new { @class = "form-control", placeholder = "Şifre", style = "color:black" })
+
+                <button class="btn btn-lg btn-login btn-block">Giriş Yap</button>
+
+                <div class="registration">
+
+
+                    <h4 style="color:crimson" align="center"> @ViewBag.Hatali @Html.ActionLink("Kayıt Ol", "Register") </h4>
+
+
+
+                </div>
+
+
+
+
+            </div>
+
+        }
+    </div>
+
+
+</body>
+</html>

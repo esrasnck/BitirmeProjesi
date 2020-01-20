@@ -1,0 +1,86 @@
+﻿@model Tuple<AppUser, AppUserDetail>
+@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="Mosaddek">
+    <meta name="keyword" content="FlatLab, Dashboard, Bootstrap, Admin, Template, Theme, Responsive, Fluid, Retina">
+    <link rel="shortcut icon" href="img/favicon.png">
+    <title>FlatLab - Flat & Responsive Bootstrap Admin Template</title>
+    <!-- Bootstrap core CSS -->
+
+
+    <link href="~/OuterTools/FlatAdmin/css/bootstrap.min.css" rel="stylesheet">
+    <link href="~/OuterTools/FlatAdmin/css/bootstrap-reset.css" rel="stylesheet">
+    <!--external css-->
+    <link href="~/OuterTools/FlatAdmin/assets/font-awesome/css/font-awesome.css" rel="stylesheet" />
+    <!-- Custom styles for this template -->
+    <link href="~/OuterTools/FlatAdmin/css/style.css" rel="stylesheet">
+    <link href="~/OuterTools/FlatAdmin/css/style-responsive.css" rel="stylesheet" />
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 tooltipss and media queries -->
+    <!--[if lt IE 9]>
+    <script src="js/html5shiv.js"></script>
+    <script src="js/respond.min.js"></script>
+    <![endif]-->
+
+    <style>
+
+        #Item2_Address {
+            resize: none;
+        }
+    </style>
+</head>
+<body class="login-body">
+    <div class="container">
+
+
+
+        @using (Html.BeginForm("Register", "Home", FormMethod.Post, new { @class = "form-signin" }))
+        {
+
+            <h1 style="color:darkgreen">@TempData["HesapAktif"]</h1>
+            <h2 class="form-signin-heading">KAYIT OL</h2>
+            <div class="login-wrap">
+                <p><h4 style="color:crimson" align="center"> @ViewBag.ZatenVar</h4></p>
+                <p>Lutfen hesap bilgilerinizi giriniz</p>
+
+
+                @Html.TextBoxFor(x => x.Item1.UserName, new { @class = "form-control", placeholder = "Kullanıcı Adı Giriniz", style = "color:black" })
+
+
+                @Html.PasswordFor(x => x.Item1.Password, new { @class = "form-control", placeholder = "Şifre", style = "color:black" })
+
+
+                @Html.TextBoxFor(x => x.Item1.Email, new { @class = "form-control", placeholder = "Email Adresi", style = "color:black" })
+
+                <p> Profil bilgilerinizi giriniz(zorunlu degildir sonra da olusturabilirsiniz)</p>
+                <p style="color:green"> @Html.ViewBag.mailOnay</p>
+
+                @Html.TextBoxFor(x => x.Item2.FirstName, new { @class = "form-control", placeholder = "Adınız", style = "color:black" })
+
+                @Html.TextBoxFor(x => x.Item2.LastName, new { @class = "form-control", placeholder = "Soy Adınız", style = "color:black" })
+
+
+                @Html.TextAreaFor(x => x.Item2.Address, new { @class = "form-control", placeholder = "Adresiniz", style = "color:black" }) <br />
+
+                <button class="btn btn-lg btn-login btn-block">Onayla</button>
+                <div class="registration">
+                    <h4 align="center">
+                        Kayıtlı Kullanıcı:
+                        @Html.ActionLink("GİRİS", "Login")
+                    </h4>
+
+                </div>
+            </div>
+        }
+
+
+    </div>
+
+</body>
+</html>

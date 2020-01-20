@@ -1,0 +1,45 @@
+  public AppUser()
+        {
+            Role = UserRole.Member;
+            ActivationCode = Guid.NewGuid();
+        }
+Bu durumda oluþturuluan tüm AppUser nesneleri member olarak çýkýyor. Düzeltilmesi gerekir.
+Log sýnýfý oluþturulmamýþ. Haliyle LogMap, LogRepository sýnýflarý da yok. Onlar da unutulmamalý.
+Tablo isimleri Türkçeleþtirilmemiþ. Sadece sütun isimleri Türkçe, tablo isimleri Ýngilizce.
+
+
+
+Neler Yapýldý?
+ActivationCode, ActivateionCode  þeklinde yazýlmýþtý. Düzeltildi.
+BaseRepository sýnýfý içerisinde GetById metodu düzeltildi.
+IRepository ve BaseRepository sýnýfýlarý dizayn edildi. Okunabilirliði arttýrýldý.
+BaseRepository sýnýfý içerisinde MyContext db deðiþkeni protected olarak ayarlandý ki miras verilen sýnýflarda da kullanýlabilsin.
+AppUserRepository sýnýfý içerisinde CheckCredentials() metodu tanýmlandý(Argüman olarak verilen kullanýcý adý ve email adresinin veritabanýnda olup olmadýðýný kontrol eder.)
+Project.MVCUI katmanýnda AuthenticationClasses klasörü içerisinde AdminAuthentication ve MemberAuthentication sýnýflarý oluþturuldu.
+Project.MVCUI katmanýna Areas klasörü eklendi. Ýçerisinde Administrator areasý oluþturuldu. Ýlgili Controller açýldý.
+Project.MVCUI katmanýn kök dizininde bulunan Controller klasörü içerisinde HomeController oluþturuldu ve içerinde üyelik iþlemlerinin yapýldýðý action'lar oluþturuldu.
+Project.MVCUI katmanýna Filter klasörü açýldý ve ActFilter, ResFilter ve Filter sýnýfýlarý oluþturuldu.
+Project.BLL katmanýnda ConcRep klasörü içerisinde ProductCategoryRepository sýnýfý oluþturuldu.
+RouteConfig sýnýfý içerisinde route template içerisinde varsayýlan namespace olarak Project.MVCUI.Controllers tanýmlandý. Giriþ sayfasý varsayýlan olarak Login olarak ayarlandý.
+
+Add metodu virtual olarak iþaretlendi.
+AppUserRepository sýnýfý içerisinde Add metodu ezildi. Þifreleme iþlemi yapýldý.
+Map sýnýflarýnda Tablo isimleri Türkçeleþtirildi.
+Model katmanýnda Model sýnýflarý içerisinde DataAnnotation'lar yerleþtirildi.
+Administrator Area'sýnda :
+AppUserController sýnýfýnda Validation için if mekanizmalarý eklendi.
+AppUserController sýnýfýnda þifre çözülerek veritabanýnda sorgu yapmasý saðlandý.
+HomeController sýnýflarýnda LogOut action metotlarý oluþturuldu.
+HomeController sýnýflarýnda veritabanýndaki þifreler çözülerek doðrulama yapýlmasý saðlandý.
+OrderController sýnýfýna Delete ve Update action metotlarý eklendi. List metodu düzeltildi.
+ProductController sýnýfýnda List metodu düzeltildi.
+ProductController sýnýfýnda Add metodu düzeltildi.
+ProductController sýnýfýnda Update ve Detail metodu kýsmen düzeltildi. Üzerinde çalýþýlacak.
+ListProduct sayfasýnda düzeltme yapýldý.
+
+Kök dizinde bulunan HomeController sýnýfýnda CheckCredentials metodundan dönen deðer mesaj deðiþkenine atandý. Bu da ViewBag.ZatenVar atandý.
+LogOut metodu eklendi.
+
+Authentication ayarlarý yapýldý.
+
+VMClasses oluþturuldu. VM sýnýflarý içerisine atýldý. Sýnýflarýn namespace'leri düzeltildi.

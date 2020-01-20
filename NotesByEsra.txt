@@ -1,0 +1,62 @@
+Tekrar duzenlenenler:
+
+1) Order Tablosunda, Shipped Adress silindi. yerine Kargolama Apisindeki propertyler eklendi.
+   Eklenenler: Address, City, Town, District, phone
+
+2) OrderMap' de yeni eklenen propertyler turkcelestirildi
+
+3) OrderStatus, PackingStatus, PaymentOptions isimli uc tane yeni enum olusturuldu.
+   OrderStatus=> Approved= onaylandı
+				 Canceled= Iptal edildi
+				 Pending= odeme bekliyor
+   
+   PackingStatus=> Preparing= hazırlanıyor
+				   Packed= Paketlendi
+
+  PaymentOptions=> Transfer= havale
+				   Cash= kapıda/nakit odeme
+				   CreditCard= KrediKartı ile ödeme
+
+4) OrderDetail tablosuna yeni propertyler eklendi 
+				Amount= miktar
+				PaymentDate= OdemeTarihi
+				OrderStatus= SiparisDurumu
+				PackingStatus= paketlenme durumu
+				paymentOption= odemeSecenekleri
+
+5) OrderDetailMap Tablosunda yeni eklenen propertyler turkcelestirildi.
+
+6) MyContext sınıfında, Tablo isimleri turkcelestirildi.
+
+
+11/05/2019 tarihli Esra Tarafından yapılan committe: 
+
+Base Entity'den Created by ve Modified By propertieleri silindi. ilgili maplerde gerekli ayarlamalar yapıldı.
+Daha önceden test amaçlı oluşturulmış, herhangi bir actiona ait olmayan index view silindi. (Views\Home klasoründeki.)
+My Initilaizer sınıfında, bogustan Feature tablosu için ve ProductFeature tablosundaki Value degeri icin fake data çekildi.
+gerekli testleri yapıldı. veri tabanına verilerin gelip/gelmedigi kontrol edildi.
+
+
+
+12/05/2019 tarihli Esra Tarafından yapılan committe: 
+
+1) homeController ve MemberController controllerindeni ActFilter ve ResFilter filtreleri, daha rahat test edilmek adına, sonradan açılmak üzere yorum satırına alındı.
+
+2) common katmanındaki mail sender sınıfında bulunan mail adresi ve şifre değiştirildi.
+
+3) homeConterller daki RegisterOnay action'ınındaki if döngüsünün ilk kısmındaki temData değiştirildi. (todo: kısmına sonradan eklendi diye yazıldı)
+
+4) HomeControllerdaki Login'in post actionun if döngüsü değiştirildi. view.bag= hatali kısmı else in içine alındı. if döngüsünün ilk kısmına  return RedirectToAction("ProductList", "Member"); eklendi. yapılan değişiklikler "// todo: sonradan eklendi" diye belirtildi.
+
+5) Register sayfası oluşturuldu. test edildi. yapılan testlerde herhangi bir hata çıkmadı
+
+6) login sayfası oluşturuldu. test edildi. yapılan testlerde herhangi bir hata çıkmadı.
+
+7)test edilmek adına, yorum satırına alınan homeController ve MemberController controllerindeni ActFilter ve ResFilter filtreleri,yorum satırından çıkarıtıldı.
+
+8)yapılan değişiklikter NotesByEsra.txt notpadine kaydedildi.
+
+9) proje commitlendi.
+
+
+
